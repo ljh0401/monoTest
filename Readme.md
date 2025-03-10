@@ -1,6 +1,6 @@
-## 우당탕탕 monorepo 일대기
+## monorepo 가능성 탐색
 
-- 해당 방식을 따라할 경우 Node.js가가 install 되어있어야 합니다.
+- 해당 방식을 따라할 경우 Node.js가 install 되어있어야 합니다.
 - 추가적으로 환경 변수를 통해 cmd.exe를 찾아갈 수 있어야 합니다. ( Error: spawn cmd.exe ENOENT)
     - 만약 Error 발생 시 C:\Windows\System32\cmd.exe이 존재하는지 확인
     - cmd에서 `echo %PATH%` 를 통해 "C:\Windows\System32" 가 출력 되었는지 확인
@@ -10,11 +10,11 @@
 
 
 #### 시작
-1. 우선 nestjs를 쓸 것이니 nestjs/cli를 npm을 통해 설치합니다다.
+1. 우선 nestjs를 쓸 예정이니 nestjs/cli를 npm을 통해 설치합니다.
 ```
     npm i -g @nestjs/cli
 ```
-2. 그 후 monorepo로 만들 폴더를 하나 만들고, 거기로 이동합시다. (전 monoTest로 만들었어요)
+2. 그 후 monorepo로 만들 폴더를 하나 만들고, 거기로 이동합시다. (전 monoTest로 만들었습니다)
 ```
     mkdir monoTest && cd monoTest
 ```
@@ -63,14 +63,15 @@ npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memo
 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
 ```
-이 부분은 nest에서 사용하는 module 관련 문제입니다다. (직접 업데이트하면 해결은 가능하지만, 혹시 모르니 저는 따로 건드리지지 않았습니다.)
+이 부분은 nest에서 사용하는 module 관련 문제입니다다. (직접 업데이트하면 해결은 가능하지만, 저는 따로 건드리지 않았습니다.)
 
 
 #### 추가적으로 설정 or 고민해야하는 부분
 
-1. 공유 패키지 구성
+1. 공유 패키지 구성, 설정 파일 구성
   -  모노레포의 장점인 코드 재사용성을 위해서는 공유 패키지를 구성해야 합니다.
-  - 이를 위해서는 디렉토리를 추가해야 하나, 가능성만 살펴본 현재 test에서는 따로 구성하지 않았습니다.
+  -  또한 ESlint, Prettier 등의 기본 설정을 root에 파일로 만들어 관리해야 합니다.
+  - 이를 위해서는 디렉토리와 파일을 추가해야 하나, 가능성만 살펴본 현재 test에서는 따로 구성하지 않았습니다.
 
 2. 패키지 메니저 변경
   - 현재는 npm을 사용하고 있으나, 제대로 사용을 할 예정이면 Yarn이나 Lerna, 더 나아가 NX, Turborepo를 사용하는 것이 좋아 보입니다.
@@ -83,3 +84,8 @@ npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supporte
   - 이러한 부분은 yarn berry를 사용하면서 Plug'n'Play을 통해 검색과 의존성 문제를 해결할 수 있을 것으로 보입니다.
   - 추가적으로 zero install까지 가능하게 만든다면 의존성 관리를 좀 더 편리하게 가능해질 것으로 보입니다.
   - 이에 다음에 모노레포를 구성할 때는 yarn berry를 사용해 볼 것 같습니다.
+
+4. back과 front를 한 repo에서 관리하는 것이 도움이 될 것인지에 대한 고민
+  - 버전의 일관성을 유지하고 코드를 공유할 때에 모노레포는 도움이 되는 것이 맞으나, back과 front의 코드 공유가 많을 것인지에 대한 고민이 들었습니다.
+  - 만약 코드의 공유가 많다면, 그리고 개발 단계에서 타입 등의 공통 부분의 지속적인 수정이 예측된다면 모노레포의 사용으로 얻을 수 있는 장점이 많을 것으로 보이나, 코드의 공유가 적고 배포 주기가 다르다면 오히려 통합된 의존성, 버전 관리가 단점으로 작용할 수 있을 것입니다.
+  - 이에 현재 진행하는 프로젝트는 우선 멀티레포로 진행하고, 시간적 여유가 남을 경우 모노레포로 전환해보며 차이점에 대해 살펴볼 예정입니다.
